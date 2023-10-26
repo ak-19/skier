@@ -49,9 +49,9 @@ export class Skier extends Sprite {
   obstacleManager: ObstacleManager;
 
   /**
-   * Stores all of the animations available for the different states of the skier.
+   * Handles jump animation when jump states is on.
    */
-  animator: JumpAnimator;
+  jumpAnimator: JumpAnimator;
 
   /**
    * Init the skier.
@@ -60,7 +60,7 @@ export class Skier extends Sprite {
     super(x, y, imageManager, canvas);
 
     this.obstacleManager = obstacleManager;
-    this.animator = new JumpAnimator(this);
+    this.jumpAnimator = new JumpAnimator(this);
   }
 
   /**
@@ -76,7 +76,7 @@ export class Skier extends Sprite {
   /**
    * Is the skier currently in the jumping state
    */
-  isJumping = (): boolean => this.state === STATES.STATE_JUMP;
+  isJumping = (): boolean => false;
 
   /**
    * Is the skier currently in the dead state
@@ -103,7 +103,7 @@ export class Skier extends Sprite {
    */
   update(gameTime: number) {
     if (this.isSkiing() || this.isJumping()) {
-      if (this.isJumping()) this.animator.animate(gameTime);
+      if (this.isJumping()) this.jumpAnimator.animate(gameTime);
       this.move();
       this.checkIfHitObstacle();
     }
@@ -385,6 +385,6 @@ export class Skier extends Sprite {
   setState(newState: STATES) {
     this.state = newState;
 
-    if (this.state === STATES.STATE_JUMP) this.animator.init();
+    if (this.state === STATES.STATE_JUMP) this.jumpAnimator.init();
   }
 }
