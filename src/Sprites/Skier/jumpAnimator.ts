@@ -6,17 +6,17 @@ import { STATES } from "./states";
 
 export class JumpAnimator {
     /**
-     * The animation that the skier is currently using. Typically matches the state the skier is in.
+     * The jump animation that the skier is currently using.
      */
     animation: Animation | null = null;
 
     /**
-     * The current frame of the current animation the skier is on.
+     * The current iamge from image array.
      */
     imageCounter: number = 0;
 
     /**
-     * The time in ms of the last frame change. Used to provide a consistent framerate.
+     * The time in ms of the last image change.
      */
     lastImageTime: number = Date.now();
 
@@ -25,8 +25,8 @@ export class JumpAnimator {
      */
     skier: Skier;
 
-    constructor(sprite: Skier) {
-        this.skier = sprite;
+    constructor(skier: Skier) {
+        this.skier = skier;
     }
 
     init() {
@@ -35,23 +35,23 @@ export class JumpAnimator {
         this.skier.imageName = this.animation.getImages()[0];
     }
 
-    passedAnimationTimeFrame(gameTime: number) {
-        return gameTime - this.lastImageTime > ANIMATION_FRAME_SPEED_MS;
+    passedAnimationTimeFrame(time: number) {
+        return time - this.lastImageTime > ANIMATION_FRAME_SPEED_MS;
     }
 
     /**
      * Do the animation if all conditions are set
      */
-    animate(gameTime: number) {
+    animate(time: number) {
         if (!this.animation) {
             this.skier.setDirection(this.skier.direction);
             this.skier.setState(STATES.STATE_SKIING);
         }
-        else if (this.passedAnimationTimeFrame(gameTime)) this.nextImage(gameTime);
+        else if (this.passedAnimationTimeFrame(time)) this.nextImage(time);
     }
 
     /**
-     * If possible set next image from image array, otherwise stop everythin and release animation object
+     * If possible set next image from image array, otherwise stop everything and release animation object
      */
     nextImage(gameTime: number) {
         if (this.animation) {
