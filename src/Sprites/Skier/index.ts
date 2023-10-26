@@ -76,7 +76,7 @@ export class Skier extends Sprite {
   /**
    * Is the skier currently in the jumping state
    */
-  isJumping = (): boolean => true;
+  isJumping = (): boolean => this.state === STATES.STATE_JUMP;
 
   /**
    * Is the skier currently in the dead state
