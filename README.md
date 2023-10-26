@@ -2,11 +2,6 @@
 
 Welcome to the  Ski Code Challenge!
 
-For this challenge, we have included some base code for  Ski, our version of the classic Windows game SkiFree. If
-you've never heard of SkiFree, Google has plenty of examples. Better yet, you can play our version here:
-
-Or deploy it locally by running:
-
 ```
 npm install
 npm run dev
