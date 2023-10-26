@@ -5,8 +5,8 @@
 import { IMAGE_NAMES } from "../../Constants";
 import { Canvas } from "../../Core/Canvas";
 import { ImageManager } from "../../Core/ImageManager";
-import { randomInt } from "../../Core/Utils";
-import { Entity } from "../Entity";
+import { randomInt } from '../../Core/Utils';
+import { Sprite } from "../Sprite";
 
 /**
  * The different types of obstacles that can be placed in the game.
@@ -16,9 +16,10 @@ const OBSTACLE_TYPES: IMAGE_NAMES[] = [
     IMAGE_NAMES.TREE_CLUSTER,
     IMAGE_NAMES.ROCK1,
     IMAGE_NAMES.ROCK2,
+    IMAGE_NAMES.JUMP_RAMP
 ];
 
-export class Obstacle extends Entity {
+export class Obstacle extends Sprite {
     /**
      * The name of the current image being displayed for the obstacle.
      */
@@ -34,8 +35,14 @@ export class Obstacle extends Entity {
         this.imageName = OBSTACLE_TYPES[typeIdx];
     }
 
+    get obstacleType() {
+        return this.imageName;
+    }
+
     /**
      * Obstacles can't be destroyed
      */
-    die() {}
+    die() {
+
+    }
 }

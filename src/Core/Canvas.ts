@@ -4,7 +4,7 @@
  * game world.
  */
 
-import { Position } from "./Utils";
+import { Position } from './Utils';
 
 export class Canvas {
     canvasId: string;
@@ -48,8 +48,8 @@ export class Canvas {
     }
 
     getCanvasContext(): CanvasRenderingContext2D {
-        const ctx = this.canvas.getContext("2d");
-        if (!ctx) {
+        const ctx = this.canvas.getContext('2d');
+        if(!ctx) {
             throw new Error(`Could not retrieve context for canvas ${this.canvasId}`);
         }
 
@@ -62,8 +62,8 @@ export class Canvas {
     setupCanvas() {
         this.canvas.width = this.width * window.devicePixelRatio;
         this.canvas.height = this.height * window.devicePixelRatio;
-        this.canvas.style.width = this.width + "px";
-        this.canvas.style.height = this.height + "px";
+        this.canvas.style.width = this.width + 'px';
+        this.canvas.style.height = this.height + 'px';
 
         this.ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
     }

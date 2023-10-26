@@ -6,6 +6,7 @@
 import { IMAGE_NAMES } from "../Constants";
 
 export class Animation {
+
     /**
      * The sequence of images the animation cycles through
      */

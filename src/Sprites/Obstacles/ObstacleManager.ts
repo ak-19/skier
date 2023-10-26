@@ -3,10 +3,10 @@
  * obstacles, places new obstacles as the skier moves throughout the world and displays them all to the screen.
  */
 
-import { GAME_WIDTH, GAME_HEIGHT } from "../../Constants";
+import { GAME_WIDTH, GAME_HEIGHT } from '../../Constants';
 import { Canvas } from "../../Core/Canvas";
 import { ImageManager } from "../../Core/ImageManager";
-import { Position, randomInt, Rect } from "../../Core/Utils";
+import { Position, randomInt, Rect} from '../../Core/Utils';
 import { Obstacle } from "./Obstacle";
 
 /**
@@ -72,13 +72,16 @@ export class ObstacleManager {
      * skier.
      */
     placeInitialObstacles() {
-        const numberObstacles = Math.ceil(
-            (GAME_WIDTH / STARTING_OBSTACLE_REDUCER) * (GAME_HEIGHT / STARTING_OBSTACLE_REDUCER)
+        const numberObstacles = Math.ceil((GAME_WIDTH / STARTING_OBSTACLE_REDUCER) * (GAME_HEIGHT / STARTING_OBSTACLE_REDUCER));
+
+        const placementArea = new Rect(
+            -GAME_WIDTH / 2,
+            STARTING_OBSTACLE_GAP,
+            GAME_WIDTH / 2,
+            GAME_HEIGHT / 2
         );
 
-        const placementArea = new Rect(-GAME_WIDTH / 2, STARTING_OBSTACLE_GAP, GAME_WIDTH / 2, GAME_HEIGHT / 2);
-
-        for (let i = 0; i < numberObstacles; i++) {
+        for(let i = 0; i < numberObstacles; i++) {
             this.placeRandomObstacle(placementArea);
         }
 
@@ -93,22 +96,24 @@ export class ObstacleManager {
      */
     placeNewObstacle(gameWindow: Rect, previousGameWindow: Rect) {
         const shouldPlaceObstacle = randomInt(1, NEW_OBSTACLE_CHANCE);
-        if (shouldPlaceObstacle !== NEW_OBSTACLE_CHANCE) {
+        if(shouldPlaceObstacle !== NEW_OBSTACLE_CHANCE) {
             return;
         }
 
-        if (gameWindow.left < previousGameWindow.left) {
+        if(gameWindow.left < previousGameWindow.left) {
             this.placeObstacleLeft(gameWindow);
-        } else if (gameWindow.left > previousGameWindow.left) {
+        }
+        else if(gameWindow.left > previousGameWindow.left) {
             this.placeObstacleRight(gameWindow);
         }
 
-        if (gameWindow.top < previousGameWindow.top) {
+        if(gameWindow.top < previousGameWindow.top) {
             this.placeObstacleTop(gameWindow);
-        } else if (gameWindow.top > previousGameWindow.top) {
+        }
+        else if(gameWindow.top > previousGameWindow.top) {
             this.placeObstacleBottom(gameWindow);
         }
-    }
+    };
 
     /**
      * Place an obstacle to the left of the game window
@@ -150,7 +155,7 @@ export class ObstacleManager {
         let position: Position | null;
         do {
             position = this.calculateOpenPosition(placementArea);
-        } while (!position);
+        } while(!position);
 
         const newObstacle = new Obstacle(position.x, position.y, this.imageManager, this.canvas);
 
@@ -171,16 +176,17 @@ export class ObstacleManager {
             const obstacleY = obstacle.getPosition().y;
 
             return (
-                placementX > obstacleX - DISTANCE_BETWEEN_OBSTACLES &&
-                placementX < obstacleX + DISTANCE_BETWEEN_OBSTACLES &&
-                placementY > obstacleY - DISTANCE_BETWEEN_OBSTACLES &&
-                placementY < obstacleY + DISTANCE_BETWEEN_OBSTACLES
+                placementX > (obstacleX - DISTANCE_BETWEEN_OBSTACLES) &&
+                placementX < (obstacleX + DISTANCE_BETWEEN_OBSTACLES) &&
+                placementY > (obstacleY - DISTANCE_BETWEEN_OBSTACLES) &&
+                placementY < (obstacleY + DISTANCE_BETWEEN_OBSTACLES)
             );
         });
 
-        if (foundCollision) {
+        if(foundCollision) {
             return null;
-        } else {
+        }
+        else {
             return new Position(placementX, placementY);
         }
     }

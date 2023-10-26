@@ -12,7 +12,7 @@ import { iImage } from "../Interfaces/iImage";
 const SCALE: number = 0.5;
 
 export class ImageManager {
-    loadedImages: { [key in IMAGE_NAMES]?: HTMLImageElement } = {};
+    loadedImages: {[key in IMAGE_NAMES]?: HTMLImageElement} = {};
 
     /**
      * Load each of the passed in images and return a promise that resolves when all images are finished loading

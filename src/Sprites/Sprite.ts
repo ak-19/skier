@@ -1,5 +1,5 @@
 /**
- * A basic game entity with a position and image to be displayed in the game.
+ * A basic game Sprite class with a position and image to be displayed in the game.
  */
 
 import { Canvas } from "../Core/Canvas";
@@ -7,7 +7,7 @@ import { ImageManager } from "../Core/ImageManager";
 import { Position, Rect } from "../Core/Utils";
 import { IMAGE_NAMES } from "../Constants";
 
-export abstract class Entity {
+export abstract class Sprite {
     /**
      * Represents the position of the center of the entity.
      */
