@@ -5,9 +5,9 @@ import { Obstacle } from "../Obstacles/Obstacle";
 import { ObstacleManager } from "../Obstacles/ObstacleManager";
 import { STATES } from "./states";
 
-  /**
-   * Detects collision between skier and obstacles.
-   */  
+/**
+ * The collision detection class. Detects collision between skier and obstacles.
+*/
 
 export class CollisionDetection {
     private obstacleManager: ObstacleManager;
