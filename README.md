@@ -1,6 +1,6 @@
 # Ski Code Challenge - TypeScript Edition
 
-Welcome to the  Ski Code Challenge!
+**How To run**
 
 ```
 npm install
@@ -15,75 +15,32 @@ npm run dev
 -   At some point the rhino will appear, chasing the skier. It will inevitably catch the skier and eat them, ending the
     game.
 
-**Time Limit**
+**New features added**
 
-Solutions should be submitted within a week of receiving the challenge. We expect the challenge to take at most two
-hours of your time. We understand that everyone has varying levels of free time and we'd rather you take the time and
-produce a solution up to your ability than rush and turn in a suboptimal challenge. If you require more time, please
-reach out to us. Look through the requirements below and let us know when you will have something for us to look at.
-If anything is unclear, don't hesitate to reach out.
-
-**Requirements**
-
-Throughout your completion of these requirements, be mindful of the design/architecture of your solution and the
-quality of your code. We've provided the base code as a sample of what we expect. That being said, we're sure there are
-ways the that the design and architecture could be better. If you find a better way to do something, by all means, make
-it better! Your solution can only gain from having a better foundation.
-
--   **Add a New Feature:**
-
-    Add in the ability for the skier to jump. The asset files for the ramp and the jumping skier are included. All you
-    need do is make them jump.
-
-    Acceptance Criteria:
-
+-   **Features:**
     -   Jump ramps are added to the game world and appear randomly as the skier skis.
-    -   The skier should enter the jumping state when they hit the jump ramp.
-    -   The skier should also enter the jumping state when the user presses the spacebar.
-    -   The skier should do a flip while jumping, at least one cycle through the jump images provided.
-    -   While jumping, the skier should be able to jump over some obstacles:
+    -   The skier can enter the jumping state when they hit the jump ramp.
+    -   The skier can enter the jumping state when the user presses the spacebar.
+    -   The skier can do a flip while jumping, exactly one cycle through the jump images provided.
+    -   While jumping, the can should be able to jump over some obstacles:
         -   Rocks can be jumped over
         -   Trees can NOT be jumped over
 
--   **Documentation:**
+-   **Documentation on what has been done:**
 
-    Update this README file with your comments about your work.
+    -   I struggled understanding the code so I did a lot of renaming, for example:
+        - renamed entity folder to sprites, I think things should be name closely for what they are.
+        - expanded skier sprite class to whole folder and moved some of the details in seperate files (it is hard to follow when one file holds everything) 
+        - did same thing with constants, this way if one looks for something it can just to go to file.      
+    -   I add some constants and obvious updates regarding assets.
+    
+    - Most of my work was around skier sprite class, for this purpose I expanded this class into whole folder.
+    - Main problem was in the are of collision detections and animation, to solve this I used a lot of googling and taking rhino sprite animation as reference. My solution invloved exetracting this 2 things into seperate classes and deal with those problems there. So instead a lot of new code, skier class got just 2 new properties, jumpAnimator and collisionDetector. My idea is to use them as in startegy pattern, in future they can become more abstract type and inserted on specific demand, for exmaple if one needs to have other animations rolling one can inject oder animation handler. Or if one needs to handle collision in different way it can be inject instead current collisionDetector. This is just an idea. Also I did some short method with meaningful naming, that helps to follow what is going on, since I had a hard time reading the code in the first place.
+    
+        
 
-    -   What did you do and, more importantly, why you built it the way you did.
-    -   Are there any known bugs?
-    -   Did you do any bonus items?
-    -   Tell us how to run it, either locally or through a cloud provider.
-
--   **Be original:**
-
-    This should go without saying but don’t copy someone else’s game implementation! We have access to Google too!
-
-**Grading**
-
-Your challenge will be graded based upon the following criteria. **Before spending time on any bonus items, make sure
-you have fulfilled this criteria to the best of your ability, especially the quality of your code and the
-design/architecture of your solutions. We cannot stress this enough!**
-
--   How well you've followed the instructions. Did you do everything we said you should do?
--   The quality of your code. We have a high standard for code quality and we expect all code to be up to production
-    quality before it gets to code review. Is it clean, maintainable, unit-testable, and scalable?
--   The design of your solution and your ability to solve complex problems through simple and easy to read solutions.
--   How well you document your solution. We want to know what you did and **why** you did it.
 
 **Bonus**
 
-_Note: You won’t be marked down for excluding any of this, it’s purely bonus. If you’re really up against the clock,
-make sure you complete all of the listed requirements and to focus on writing clean, well organized, well documented
-code before taking on any of the bonus._
-
-If you're having fun with this, feel free to add more to it. Here's some ideas or come up with your own. We love seeing
-how creative candidates get with this.
-
--   Provide a way to reset the game once it's over
--   Provide a way to pause and resume the game
--   Add a score that increments as the skier skis further
--   Increase the difficulty the longer the skier skis (increase speed, increase obstacle frequency, etc.)
--   Deploy the game to a server so that we can play it without having to install it locally
--   Write unit tests for your code
-
-We are looking forward to see what you come up with!!
+-   "Game over" and "To play again press enter" appears so user can restart the game once it's over
+-   Score is available on top right corner of the screen
