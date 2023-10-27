@@ -11,11 +11,11 @@ import { Canvas } from "../../Core/Canvas";
 import { ImageManager } from "../../Core/ImageManager";
 import { intersectTwoRects, Rect } from "../../Core/Utils";
 import { ObstacleManager } from "../Obstacles/ObstacleManager";
-import { Obstacle } from "../Obstacles/Obstacle";
 import { STATES } from "./states";
 import { DIRECTION_DOWN, DIRECTION_LEFT, DIRECTION_LEFT_DOWN, DIRECTION_RIGHT, DIRECTION_RIGHT_DOWN } from "./directions";
 import { DIRECTION_IMAGES, IMAGES_JUMPING } from "./images";
 import { JumpAnimator } from "./jumpAnimator";
+import { CollisionDetection } from "./collisionDetection";
 
 export class Skier extends Sprite {
 
@@ -54,6 +54,11 @@ export class Skier extends Sprite {
   jumpAnimator: JumpAnimator;
 
   /**
+   * Detects collision between skier and obstacles.
+   */  
+  collisionDetector: CollisionDetection;
+
+  /**
    * Init the skier.
    */
   constructor(x: number, y: number, imageManager: ImageManager, obstacleManager: ObstacleManager, canvas: Canvas) {
@@ -61,6 +66,8 @@ export class Skier extends Sprite {
 
     this.obstacleManager = obstacleManager;
     this.jumpAnimator = new JumpAnimator(this);
+
+    this.collisionDetector = new CollisionDetection(this.obstacleManager, this);
   }
 
   /**
@@ -309,45 +316,31 @@ export class Skier extends Sprite {
     );
   }
 
+  jumpOnRampHit() {
+    const skierBounds = this.getBounds();
+    if (skierBounds) {
+      const obstacles = this.obstacleManager.getObstacles();
+      for (let index = 0; index < obstacles.length; index++) {
+        const obstacle = obstacles[index];
+        const obstacleBounds = obstacle.getBounds();
+        if (obstacleBounds) {
+          if (intersectTwoRects(skierBounds, obstacleBounds) && obstacle.obstacleType === IMAGE_NAMES.JUMP_RAMP) {
+            this.setState(STATES.STATE_JUMP);
+            this.speed = this.STARTING_SPEED;
+            return;
+          }
+        }
+      }   
+    }
+  }
+
   /**
    * Go through all the obstacles in the game and see if the skier collides with any of them. If so, crash the skier.
    */
   checkIfHitObstacle() {
-    const skierBounds = this.getBounds();
-    if (!skierBounds) {
-      return;
-    }
-
-    const collision = this.obstacleManager
-      .getObstacles()
-      .find((obstacle: Obstacle): boolean => {
-        const obstacleBounds = obstacle.getBounds();
-        if (!obstacleBounds) {
-          return false;
-        }
-        if (
-          intersectTwoRects(skierBounds, obstacleBounds) &&
-          obstacle.obstacleType === IMAGE_NAMES.JUMP_RAMP
-        ) {
-          this.setState(STATES.STATE_JUMP);
-          this.speed = this.STARTING_SPEED;
-          return false;
-        }
-
-        if (
-          intersectTwoRects(skierBounds, obstacleBounds) &&
-          (obstacle.obstacleType === IMAGE_NAMES.ROCK1 ||
-            obstacle.obstacleType === IMAGE_NAMES.ROCK2) &&
-          this.state === STATES.STATE_JUMP
-        ) {
-          return false;
-        }
-
-        return intersectTwoRects(skierBounds, obstacleBounds);
-      });
-
-    if (collision) {
-      this.crash();
+    if (this.getBounds()) {
+      this.jumpOnRampHit();  
+      if (this.collisionDetector.collision()) this.crash();
     }
   }
 
